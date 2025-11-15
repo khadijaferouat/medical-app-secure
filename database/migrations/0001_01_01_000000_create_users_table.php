@@ -17,8 +17,39 @@ return new class extends Migration
             $table->string('email',191)->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+
+                        // Rôle et statut
+
+            $table->enum('role', ['admin', 'doctor', 'patient'])
+                  ->default('patient');
+            $table->enum('status', ['active', 'inactive', 'pending'])
+                  ->default('active');
+  
+                              // Champs médecin
+            $table->string('rpps_number')->nullable()->unique();
+            $table->string('specialty')->nullable();
+            $table->string('diploma_path')->nullable();
+
+               // 2FA
+             $table->string('google2fa_secret')->nullable();
+            $table->boolean('google2fa_enabled')->default(false);
+            $table->text('recovery_codes')->nullable();
+            
+               // Sécurité
+                     $table->integer('failed_login_attempts')->default(0);
+            $table->timestamp('locked_until')->nullable();
+            $table->ipAddress('last_login_ip')->nullable();
+            $table->timestamp('last_login_at')->nullable();
+            
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
+  
+
+                        // Index
+            $table->index('role');
+            $table->index('status');
+            $table->index('email');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
@@ -45,5 +76,6 @@ return new class extends Migration
         Schema::dropIfExists('users');
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
+
     }
 };
