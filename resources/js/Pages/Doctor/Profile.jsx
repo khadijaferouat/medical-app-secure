@@ -1,4 +1,4 @@
-import { Head, useForm, usePage } from '@inertiajs/react';
+import { Head, useForm, usePage, Link } from '@inertiajs/react';
 import DoctorLayout from '@/Layouts/DoctorLayout';
 import { useState } from 'react';
 
@@ -291,6 +291,42 @@ export default function Profile({ user, stats }) {
                             </p>
                         )}
                     </div>
+
+{/* ✅ AJOUTEZ CETTE SECTION 2FA ICI */}
+<div className="bg-white rounded-lg shadow-md p-6">
+    <h2 className="text-lg font-bold text-gray-900 mb-4">
+        🔐 Authentification à deux facteurs (2FA)
+    </h2>
+    
+    {user.google2fa_enabled ? (
+        <div>
+            <div className="flex items-center mb-3">
+                <span className="text-green-600 mr-2 text-2xl">✅</span>
+                <p className="text-sm text-green-600 font-semibold">
+                    L'authentification à deux facteurs est activée
+                </p>
+            </div>
+            <p className="text-sm text-gray-600 mb-3">
+                Votre accès aux dossiers médicaux est protégé par le 2FA
+            </p>
+        </div>
+    ) : (
+        <div>
+            <div className="bg-orange-50 border border-orange-200 rounded-md p-4 mb-4">
+                <p className="text-sm text-orange-800">
+                    ⚠️ Recommandé : Protégez l'accès aux dossiers médicaux sensibles en activant le 2FA
+                </p>
+            </div>
+            <Link
+                href={route('2fa.setup')}
+                className="inline-block px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 font-semibold"
+            >
+                Activer le 2FA
+            </Link>
+        </div>
+    )}
+</div>
+
                 </div>
             </div>
         </DoctorLayout>

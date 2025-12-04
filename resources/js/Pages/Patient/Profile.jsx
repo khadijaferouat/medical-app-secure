@@ -1,6 +1,7 @@
-import { Head, useForm } from '@inertiajs/react';
 import PatientLayout from '@/Layouts/PatientLayout';
 import { useState } from 'react';
+import { Head, useForm, Link } from '@inertiajs/react'; // ← Ajoutez Link
+
 
 export default function Profile({ user, patient }) {
     const { data, setData, put, processing, errors } = useForm({
@@ -64,6 +65,42 @@ export default function Profile({ user, patient }) {
             <h1 className="text-3xl font-bold text-gray-900 mb-8">
                 Mon Profil
             </h1>
+
+             {/* ✅ AJOUTEZ CETTE SECTION 2FA ICI */}
+            <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+                <h3 className="text-lg font-bold text-gray-900 mb-4">
+                    🔐 Authentification à deux facteurs (2FA)
+                </h3>
+                
+                {user.google2fa_enabled ? (
+                    <div>
+                        <div className="flex items-center mb-3">
+                            <span className="text-green-600 mr-2 text-2xl">✅</span>
+                            <p className="text-sm text-green-600 font-semibold">
+                                L'authentification à deux facteurs est activée
+                            </p>
+                        </div>
+                        <p className="text-sm text-gray-600 mb-3">
+                            Votre compte est protégé par une couche de sécurité supplémentaire
+                        </p>
+                    </div>
+                ) : (
+                    <div>
+                        <div className="bg-blue-50 border border-blue-200 rounded-md p-4 mb-4">
+                            <p className="text-sm text-blue-800">
+                                💡 Renforcez la sécurité de votre dossier médical en activant l'authentification à deux facteurs
+                            </p>
+                        </div>
+                        <Link
+                            href={route('2fa.setup')}
+                            className="inline-block px-6 py-3 bg-green-600 text-white rounded-md hover:bg-green-700 font-semibold"
+                        >
+                            Activer le 2FA
+                        </Link>
+                    </div>
+                )}
+            </div>
+            {/* FIN DE LA SECTION 2FA */}           
 
             <div className="bg-white rounded-lg shadow-md p-8">
                 <form onSubmit={handleSubmit} className="space-y-6">

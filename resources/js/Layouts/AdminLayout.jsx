@@ -68,6 +68,15 @@ export default function AdminLayout({ children, user }) {
                             </svg>
                             Demandes Médecins
                         </Link>
+<Link
+    href="/admin/security"
+    className="group flex items-center px-3 py-2 text-base font-medium rounded-md text-white hover:bg-gray-700 mb-1"
+>
+    <svg className="mr-3 h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+    </svg>
+    Sécurité
+</Link>
 
                         <Link
                             href="/admin/security-logs"

@@ -57,6 +57,17 @@ Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
     ->middleware('auth')
     ->name('logout');
 
+// Routes 2FA
+Route::middleware('auth')->group(function () {
+    Route::get('/2fa/setup', [TwoFactorController::class, 'show'])->name('2fa.setup');
+    Route::post('/2fa/enable', [TwoFactorController::class, 'enable'])->name('2fa.enable');
+    Route::post('/2fa/disable', [TwoFactorController::class, 'disable'])->name('2fa.disable');
+});
+
+Route::get('/2fa/challenge', [TwoFactorController::class, 'challenge'])->name('2fa.challenge');
+Route::post('/2fa/verify', [TwoFactorController::class, 'verify'])->name('2fa.verify');
+
+
 // Routes d'inscription PATIENT
 Route::get('/register', [PatientRegistrationController::class, 'create'])
     ->middleware('guest')
@@ -88,6 +99,20 @@ Route::get('/reset-password/{token}', function ($token) {
 
 Route::prefix('admin')->middleware('auth')->group(function () {
     
+   
+   
+   // Paramètres de sécurité admin
+Route::get('/security', function () {
+    if (Auth::user()->role !== 'admin') {
+        abort(403, 'Accès non autorisé');
+    }
+
+    return Inertia::render('Admin/SecuritySettings', [
+        'user' => Auth::user(),
+    ]);
+})->name('admin.security');
+   
+   
     // Dashboard Admin
     Route::get('/dashboard', function () {
         if (Auth::user()->role !== 'admin') {
@@ -475,4 +500,6 @@ Route::prefix('patient')->middleware('auth')->group(function () {
     // Mes médecins
     Route::get('/doctors', [PatientDoctorController::class, 'index'])
         ->name('patient.doctors');
+
+        
 });
