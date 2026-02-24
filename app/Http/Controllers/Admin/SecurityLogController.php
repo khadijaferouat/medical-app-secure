@@ -51,8 +51,8 @@ class SecurityLogController extends Controller
                 'user_email' => $log->user ? $log->user->email : null,
                 'ip_address' => $log->ip_address,
                 'risk_level' => $log->risk_level,
-                'created_at' => $log->created_at->format('Y-m-d H:i:s'),
-                'created_at_human' => $log->created_at->diffForHumans(),
+'created_at' => $log->created_at->setTimezone('Europe/Paris')->format('Y-m-d H:i:s'),
+'created_at_human' => $log->created_at->setTimezone('Europe/Paris')->diffForHumans(),
             ];
         });
 

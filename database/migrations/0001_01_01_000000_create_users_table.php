@@ -31,7 +31,7 @@ return new class extends Migration
             $table->string('diploma_path')->nullable();
 
                // 2FA
-             $table->string('google2fa_secret')->nullable();
+             $table->text('google2fa_secret')->nullable();
             $table->boolean('google2fa_enabled')->default(false);
             $table->text('recovery_codes')->nullable();
             
